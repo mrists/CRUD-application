@@ -1,0 +1,23 @@
+<h2 class="py-3">Add customer</h2>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input (keydown.enter)="changeFocus(form)" type="text" id="name" class="form-control" placeholder="Type your name..." formControlName="name">
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input (keydown.enter)="changeFocus(form)" type="email" id="email" class="form-control" placeholder="Type your email..." formControlName="email">
+  </div>
+  <div class="mb-3">
+    <label for="mobile" class="form-label">Mobile</label>
+    <input (keydown.enter)="changeFocus(form)" type="tel" id="mobile" class="form-control" placeholder="Type your mobile..." formControlName="mobile">
+  </div>
+  <div class="mb-3">
+    <label for="location" class="form-label">Location</label>
+    <input (keydown.enter)="changeFocus(form)" type="text" id="location" class="form-control" placeholder="Type your city..." formControlName="location">
+  </div>
+  <div class="mb-3">
+    <button [disabled]="form.invalid" class="btn btn-info" type="submit">Save</button>
+  </div>
+</form>

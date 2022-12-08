@@ -1,0 +1,67 @@
+<h2 class="py-3">Customers list</h2>
+
+<table class="table table-striped">
+  <ng-container *ngTemplateOutlet="thead"></ng-container>
+  <ng-container *ngTemplateOutlet="tbody"></ng-container>
+</table>
+
+<ng-template #thead>
+  <thead>
+    <tr>
+      <th scope="col">№</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Mobile</th>
+      <th scope="col">City</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+</ng-template>
+
+<ng-template #tbody>
+  <tbody>
+
+    <tr *ngFor="let customer of httpService.customers; let i = index">
+      <th scope="row">{{i + 1}}</th>
+      <ng-container *ngTemplateOutlet="editingPosition !== i ? static : editing; context: {customer: customer, index: i}"></ng-container>
+      <ng-container *ngTemplateOutlet="controls; context: {customer: customer, index: i}"></ng-container>
+    </tr>
+
+  </tbody>  
+</ng-template>
+
+<ng-template #controls let-customer="customer" let-i="index">
+  <td class="controls">
+    <button (click)="editCustomer(i)" *ngIf="editingPosition !== i"
+    type="button" class="btn btn-outline-info btn-sm ms-2"><i class="fas fa-edit"></i></button>
+    <button (click)="cancelEditing() " *ngIf="editingPosition === i" 
+    type="button" class="btn btn-outline-info btn-sm ms-2"><i class="fas fa-undo"></i></button>
+    <button (click)="saveCustomer(customer, i)" *ngIf="editingPosition === i" 
+    type="button" class="btn btn-outline-info btn-sm ms-2"><i class="fas fa-save"></i></button>
+    <button (click)="deleteCustomer(customer)" 
+    type="button" class="btn btn-outline-info btn-sm ms-2"><i class="fas fa-trash"></i></button>
+  </td>
+</ng-template>
+
+<ng-template #static let-customer="customer">
+  <td>{{customer.name}}</td>
+  <td>{{customer.email}}</td>
+  <td>{{customer.mobile}}</td>
+  <td>{{customer.location}}</td>
+</ng-template>
+
+<ng-template #editing let-customer="customer" let-i="index">
+  <td><input (blur)="setValue('name', name.value, customer.name)" 
+    (keydown.enter)="setValue('name', name.value, customer.name); saveCustomer(customer, i)"
+    #name type="text" class="form-control form-control-sm" value="{{customer.name}}"></td>
+  <td><input (blur)="setValue('email', email.value, customer.email)" 
+    (keydown.enter)="setValue('email', email.value, customer.email); saveCustomer(customer, i)"
+    #email type="email" class="form-control form-control-sm" value="{{customer.email}}"></td>
+  <td><input (blur)="setValue('mobile', mobile.value, customer.mobile)" 
+    (keydown.enter)="setValue('mobile', mobile.value, customer.mobile); saveCustomer(customer, i)"
+    #mobile type="tel" class="form-control form-control-sm" value="{{customer.mobile}}"></td>
+  <td><input (blur)="setValue('location', location.value, customer.location)" 
+    (keydown.enter)="setValue('location', location.value, location.name); saveCustomer(customer, i)"
+    #location type="text" class="form-control form-control-sm" value="{{customer.location}}"></td>
+</ng-template>
+
